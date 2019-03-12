@@ -1,0 +1,7 @@
+name: TwinsBooster
+version: 0.0.1
+description: mcMMO booster and cosmetics system
+author: @andredezzy
+
+main: br.com.twinsflammer.Booster
+depend: [TwinsAPI]
