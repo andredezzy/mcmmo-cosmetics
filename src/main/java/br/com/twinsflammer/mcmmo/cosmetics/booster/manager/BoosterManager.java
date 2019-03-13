@@ -6,8 +6,8 @@ import org.bukkit.entity.Player;
 
 public class BoosterManager {
 
-    public double getBonusExperienceByPlayer(Player player, double exp){
-        double defaultBonus = exp * BoosterApplication.DEFAULT_MULTIPLIER;
+    public float getBonusExperienceByPlayer(Player player, float exp){
+        float defaultBonus = exp * BoosterApplication.DEFAULT_MULTIPLIER;
 
         for (BoosterType boosterType : BoosterType.values()) {
             if(player.hasPermission(boosterType.getPermission())) {

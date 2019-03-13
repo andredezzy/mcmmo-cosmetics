@@ -4,7 +4,7 @@ import br.com.twinsflammer.mcmmo.cosmetics.booster.manager.BoosterManager;
 
 public class BoosterApplication {
 
-    public static final double DEFAULT_MULTIPLIER = 2.0D;
+    public static final float DEFAULT_MULTIPLIER = 2.0F;
 
     private BoosterManager boosterManager;
 

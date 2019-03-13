@@ -2,14 +2,14 @@ package br.com.twinsflammer.mcmmo.cosmetics.booster.type;
 
 public enum BoosterType {
 
-    ZEUS("twinsflammer.mcmmo.multiplier.zeus", 1.5D),
-    HERMES("twinsflammer.mcmmo.multiplier.hermes", 1D),
-    PERSEU("twinsflammer.mcmmo.multiplier.perseu", 0.75D);
+    ZEUS("twinsflammer.mcmmo.multiplier.zeus", 1.5F),
+    HERMES("twinsflammer.mcmmo.multiplier.hermes", 1F),
+    PERSEU("twinsflammer.mcmmo.multiplier.perseu", 0.75F);
 
     private String permission;
-    private double multiplier;
+    private float multiplier;
 
-    BoosterType(String permission, double multiplier) {
+    BoosterType(String permission, float multiplier) {
         this.permission = permission;
         this.multiplier = multiplier;
     }
@@ -18,7 +18,7 @@ public enum BoosterType {
         return permission;
     }
 
-    public double getMultiplier() {
+    public float getMultiplier() {
         return multiplier;
     }
 }
