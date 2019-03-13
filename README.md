@@ -1,2 +1,2 @@
-# mcmmo-booster
-:hammer: mcMMO booster and cosmetics system
+# mcmmo-cosmetics
+:hammer: mcMMO cosmetics and booster system
