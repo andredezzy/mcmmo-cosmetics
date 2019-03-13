@@ -1,4 +1,4 @@
-package br.com.twinsflammer.type;
+package br.com.twinsflammer.mcmmo.cosmetics.booster.type;
 
 public enum BoosterType {
 
