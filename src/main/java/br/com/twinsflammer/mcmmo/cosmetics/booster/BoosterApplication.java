@@ -1,5 +1,7 @@
 package br.com.twinsflammer.mcmmo.cosmetics.booster;
 
+import br.com.twinsflammer.mcmmo.cosmetics.Main;
+import br.com.twinsflammer.mcmmo.cosmetics.booster.listener.ExperienceGainListener;
 import br.com.twinsflammer.mcmmo.cosmetics.booster.manager.BoosterManager;
 
 public class BoosterApplication {
@@ -8,8 +10,15 @@ public class BoosterApplication {
 
     private BoosterManager boosterManager;
 
-    public void Booster() {
+    public BoosterApplication() {
         this.boosterManager = new BoosterManager();
+        this._init();
+    }
+
+    private void _init(){
+        Main mainInstance = Main.getInstance();
+
+        mainInstance.getServer().getPluginManager().registerEvents(new ExperienceGainListener(), mainInstance);
     }
 
     public BoosterManager getManager() {
