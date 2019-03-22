@@ -1,8 +1,8 @@
 package br.com.twinsflammer.mcmmo.cosmetics.booster.listener;
 
 import br.com.twinsflammer.api.util.ActionBar;
-import br.com.twinsflammer.mcmmo.cosmetics.Main;
-import br.com.twinsflammer.mcmmo.cosmetics.booster.manager.BoosterManager;
+import br.com.twinsflammer.mcmmo.cosmetics.Cosmetics;
+import br.com.twinsflammer.mcmmo.cosmetics.booster.data.manager.BoosterManager;
 import com.gmail.nossr50.config.experience.ExperienceConfig;
 import com.gmail.nossr50.datatypes.player.McMMOPlayer;
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
@@ -27,7 +27,7 @@ public class ExperienceGainListener implements Listener {
     }
 
     private float getBonusExperience(Player player, float exp) {
-        BoosterManager boosterManager = Main.getInstance().getBoosterApplication().getManager();
+        BoosterManager boosterManager = Cosmetics.getInstance().getBoosterApplication().getManager();
 
         return boosterManager.getBonusExperienceByPlayer(player, exp);
     }

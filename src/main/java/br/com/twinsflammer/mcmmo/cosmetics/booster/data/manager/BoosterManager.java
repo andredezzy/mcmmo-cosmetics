@@ -1,4 +1,4 @@
-package br.com.twinsflammer.mcmmo.cosmetics.booster.manager;
+package br.com.twinsflammer.mcmmo.cosmetics.booster.data.manager;
 
 import br.com.twinsflammer.mcmmo.cosmetics.booster.BoosterApplication;
 import br.com.twinsflammer.mcmmo.cosmetics.booster.type.BoosterType;

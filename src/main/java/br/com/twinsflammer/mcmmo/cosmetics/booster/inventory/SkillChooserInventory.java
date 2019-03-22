@@ -2,9 +2,15 @@ package br.com.twinsflammer.mcmmo.cosmetics.booster.inventory;
 
 import br.com.twinsflammer.api.inventory.InventoryBuilder;
 import br.com.twinsflammer.api.inventory.item.Item;
+import br.com.twinsflammer.mcmmo.cosmetics.booster.inventory.consumer.SkillChooserInventoryConsumer;
 import org.bukkit.Material;
+import org.bukkit.event.inventory.InventoryClickEvent;
+
+import java.util.function.Consumer;
 
 public class SkillChooserInventory extends InventoryBuilder {
+
+    private static final Consumer<InventoryClickEvent> EVENT_CONSUMER;
 
     public static final Item SWORD;
     public static final Item MINING;
@@ -15,20 +21,29 @@ public class SkillChooserInventory extends InventoryBuilder {
     public static final Item HERBALISM;
 
     static {
+        EVENT_CONSUMER = new SkillChooserInventoryConsumer();
+
         SWORD = new Item(Material.DIAMOND_SWORD)
-                .name("§aEspada");
+                .name("§aEspada")
+                .setConsumer(EVENT_CONSUMER);
         MINING = new Item(Material.DIAMOND_PICKAXE)
-                .name("§aMineração");
+                .name("§aMineração")
+                .setConsumer(EVENT_CONSUMER);
         AXE = new Item(Material.DIAMOND_AXE)
-                .name("§aMachado");
+                .name("§aMachado")
+                .setConsumer(EVENT_CONSUMER);
         EXCAVATION = new Item(Material.DIAMOND_SPADE)
-                .name("§aEscavação");
+                .name("§aEscavação")
+                .setConsumer(EVENT_CONSUMER);
         STUNT = new Item(Material.DIAMOND_BOOTS)
-                .name("§aAcrobacia");
+                .name("§aAcrobacia")
+                .setConsumer(EVENT_CONSUMER);
         PLANTATION = new Item(Material.SEEDS)
-                .name("§aPlantação");
+                .name("§aPlantação")
+                .setConsumer(EVENT_CONSUMER);
         HERBALISM = new Item(Material.BREWING_STAND_ITEM)
-                .name("§aHerbalismo");
+                .name("§aHerbalismo")
+                .setConsumer(EVENT_CONSUMER);
     }
 
     public SkillChooserInventory() {

@@ -3,11 +3,11 @@ package br.com.twinsflammer.mcmmo.cosmetics;
 import br.com.twinsflammer.mcmmo.cosmetics.booster.BoosterApplication;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Main extends JavaPlugin {
+public class Cosmetics extends JavaPlugin {
 
-    private static Main INSTANCE;
+    private static Cosmetics INSTANCE;
 
-    public static Main getInstance() {
+    public static Cosmetics getInstance() {
         return INSTANCE;
     }
 
