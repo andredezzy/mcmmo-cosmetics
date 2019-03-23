@@ -4,6 +4,7 @@ import br.com.twinsflammer.api.database.mysql.MySQL;
 import br.com.twinsflammer.api.database.mysql.MySQLManager;
 import br.com.twinsflammer.mcmmo.cosmetics.booster.model.Booster;
 import br.com.twinsflammer.mcmmo.cosmetics.booster.type.BoosterType;
+import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -32,30 +33,32 @@ public class BoosterDao implements IDao {
 
             ResultSet resultSet = statement.executeQuery();
 
-            return StreamSupport.stream(new Spliterators.AbstractSpliterator<Booster>(Long.MAX_VALUE,
-                    Spliterator.ORDERED) {
-
-                @Override
-                public boolean tryAdvance(Consumer<? super Booster> action) {
-                    try {
-                        if (!resultSet.next()) return false;
-                        action.accept(of(resultSet));
-
-                        return true;
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
-                }
-            }, false).onClose(() -> close(statement, resultSet));
+            return stream(resultSet).onClose(() -> close(statement, resultSet));
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+
+            return Stream.empty();
         }
     }
 
     @Override
-    public Optional<Booster> getById(int id) {
+    public Stream<Booster> getAllByUserId(int id) {
+        try (PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM ? WHERE user_id = ?")) {
+            statement.setString(1, BoosterSchema.SCHEMA_NAME);
+            statement.setInt(2, id);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            return stream(resultSet).onClose(() -> close(statement, resultSet));
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            return Stream.empty();
+        }
+    }
+
+    @Override
+    public Optional<Booster> getByUserId(int id) {
         ResultSet resultSet = null;
 
         try (PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM ? WHERE user_id = ?")) {
@@ -68,7 +71,8 @@ public class BoosterDao implements IDao {
             else return Optional.empty();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+
+            return Optional.empty();
         } finally {
             if (resultSet != null) {
                 try {
@@ -82,19 +86,21 @@ public class BoosterDao implements IDao {
 
     @Override
     public boolean add(Booster booster) {
-        if (getById(booster.getId()).isPresent()) return false;
+        if (getByUserId(booster.getId()).isPresent()) return false;
 
-        try (PreparedStatement statement = this.connection.prepareStatement("INSERT INTO ? VALUES (?, ?, ?)")) {
+        try (PreparedStatement statement = this.connection.prepareStatement("INSERT INTO ? VALUES (?, ?, ?, ?)")) {
             statement.setString(1, BoosterSchema.SCHEMA_NAME);
             statement.setInt(2, booster.getUserId());
-            statement.setString(3, booster.getBoosterType().name());
-            statement.setLong(4, booster.getTimeLimit());
+            statement.setString(3, booster.getActivatedSkillType().name());
+            statement.setString(4, booster.getBoosterType().name());
+            statement.setLong(5, booster.getTimeLimit());
 
             statement.execute();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+
+            return false;
         }
     }
 
@@ -114,7 +120,8 @@ public class BoosterDao implements IDao {
             return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+
+            return false;
         }
     }
 
@@ -127,7 +134,8 @@ public class BoosterDao implements IDao {
             return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+
+            return false;
         }
     }
 
@@ -141,15 +149,36 @@ public class BoosterDao implements IDao {
         try {
             int id = resultSet.getInt("id");
             int userId = resultSet.getInt("user_id");
+            String activatedSkillType = resultSet.getString(BoosterSchema.ACTIVATED_SKILL_TYPE_COLUMN_NAME);
             String boosterType = resultSet.getString(BoosterSchema.BOOSTER_TYPE_COLUMN_NAME);
             long timeLimit = resultSet.getLong(BoosterSchema.TIME_LIMIT_COLUMN_NAME);
 
-            booster = new Booster(id, userId, BoosterType.valueOf(boosterType), timeLimit);
+            booster = new Booster(id, userId, PrimarySkillType.valueOf(activatedSkillType), BoosterType.valueOf(boosterType), timeLimit);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return booster;
+    }
+
+    private Stream<Booster> stream(ResultSet resultSet) {
+        return StreamSupport.stream(new Spliterators.AbstractSpliterator<Booster>(Long.MAX_VALUE,
+                Spliterator.ORDERED) {
+
+            @Override
+            public boolean tryAdvance(Consumer<? super Booster> action) {
+                try {
+                    if (!resultSet.next()) return false;
+                    action.accept(of(resultSet));
+
+                    return true;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+
+                    return false;
+                }
+            }
+        }, false);
     }
 
     private void close(PreparedStatement statement, ResultSet resultSet) {

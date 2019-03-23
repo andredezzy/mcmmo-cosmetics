@@ -6,12 +6,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Cosmetics extends JavaPlugin {
 
     private static Cosmetics INSTANCE;
+    
+    private BoosterApplication boosterApplication;
 
     public static Cosmetics getInstance() {
         return INSTANCE;
     }
-
-    private BoosterApplication boosterApplication;
 
     @Override
     public void onEnable() {

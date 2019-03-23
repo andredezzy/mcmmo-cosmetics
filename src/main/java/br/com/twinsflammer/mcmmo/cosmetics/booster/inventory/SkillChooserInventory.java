@@ -49,10 +49,10 @@ public class SkillChooserInventory extends InventoryBuilder {
     public SkillChooserInventory() {
         super(4, "Escolha a habilidade:");
 
-        this._build();
+        this.build();
     }
 
-    private void _build() {
+    private void build() {
         this.setItem(11, SWORD);
         this.setItem(12, MINING);
         this.setItem(13, AXE);
