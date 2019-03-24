@@ -2,7 +2,7 @@ package br.com.twinsflammer.mcmmo.cosmetics.booster.listener;
 
 import br.com.twinsflammer.api.util.ActionBar;
 import br.com.twinsflammer.mcmmo.cosmetics.Cosmetics;
-import br.com.twinsflammer.mcmmo.cosmetics.booster.data.manager.BoosterManager;
+import br.com.twinsflammer.mcmmo.cosmetics.booster.data.manager.BoosterManagerImpl;
 import com.gmail.nossr50.config.experience.ExperienceConfig;
 import com.gmail.nossr50.datatypes.player.McMMOPlayer;
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
@@ -23,16 +23,16 @@ public class ExperienceGainListener implements Listener {
         float bonusExperience = this.getBonusExperience(player, event.getRawXpGained());
 
         event.setRawXpGained(bonusExperience);
-        this.sendExperienceGainInformation(player, skillType, bonusExperience);
+        this.sendExperienceGainInformationToActionBar(player, skillType, bonusExperience);
     }
 
     private float getBonusExperience(Player player, float exp) {
-        BoosterManager boosterManager = Cosmetics.getInstance().getBoosterApplication().getManager();
+        BoosterManagerImpl boosterManager = Cosmetics.getInstance().getBoosterApplication().getManager();
 
         return boosterManager.getBonusExperienceByPlayer(player, exp);
     }
 
-    private void sendExperienceGainInformation(Player player, PrimarySkillType skillType, float experienceGained) {
+    private void sendExperienceGainInformationToActionBar(Player player, PrimarySkillType skillType, float experienceGained) {
         McMMOPlayer mcMMOPlayer = UserManager.getPlayer(player);
 
         String skillName = skillType.getName();

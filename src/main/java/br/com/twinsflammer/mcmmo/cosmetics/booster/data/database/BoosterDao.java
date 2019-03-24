@@ -111,7 +111,6 @@ public class BoosterDao implements IDao {
 
             statement.setString(2, BoosterSchema.BOOSTER_TYPE_COLUMN_NAME);
             statement.setString(3, booster.getBoosterType().name());
-
             statement.setString(4, BoosterSchema.TIME_LIMIT_COLUMN_NAME);
             statement.setLong(5, booster.getTimeLimit());
 

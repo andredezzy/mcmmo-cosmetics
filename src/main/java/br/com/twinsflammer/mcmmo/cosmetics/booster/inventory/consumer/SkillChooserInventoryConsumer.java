@@ -44,10 +44,11 @@ public class SkillChooserInventoryConsumer implements Consumer<InventoryClickEve
             Stream<Booster> boostersByUserId = this.boosterDao.getAllByUserId(user.getId());
 
             OptionalConsumer.of(boostersByUserId
-                    .filter($ -> {
+                    .filter(booster -> {
+                        // filter clicked item by activated skill type of the booster
                         Optional<SkillItemReference> skillItemReference = SkillItemReference.getReference(currentItem);
                         Optional<Boolean> isEqualsSkillItemReference = skillItemReference
-                                .map(it -> $.getActivatedSkillType().equals(it.getSkillType()));
+                                .map(it -> booster.getActivatedSkillType().equals(it.getSkillType()));
 
                         if (isEqualsSkillItemReference.isPresent()) {
                             return isEqualsSkillItemReference.get();
